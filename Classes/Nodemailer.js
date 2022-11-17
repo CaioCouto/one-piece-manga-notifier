@@ -17,8 +17,9 @@ module.exports = class Nodemailer {
         try {
             await this.__transporter.sendMail({
                 from: `"${process.env.SENDER_NAME}" <${process.env.SENDER_EMAIL}>`,
-                to: process.env.RECEIVER_EMAIL,
+                to: process.env.RECEIVERS_EMAIL,
                 subject: `O ${chapter} já está na OPex!`,
+                html: `<a href="${process.env.OPEX_LINK}">Clique aqui</a> para ler!`
             });
             console.log('Email successfuly sent.');
         } catch (error) {
