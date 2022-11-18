@@ -19,9 +19,9 @@ module.exports = class Nodemailer {
                 from: `"${process.env.SENDER_NAME}" <${process.env.SENDER_EMAIL}>`,
                 to: process.env.RECEIVERS_EMAIL,
                 subject: `O ${chapter} já está na OPex!`,
-                html: `<a href="${process.env.OPEX_LINK}">Clique aqui</a> para ler!`
+                html: `<a href="https://onepieceex.net/mangas/leitor/${chapter.split(' ')[1]}/#1">Clique aqui para ler!</a>`
             });
-            console.log('Email successfuly sent.');
+            console.log('>>>> Email successfuly sent.');
         } catch (error) {
             console.log(error);
         }
