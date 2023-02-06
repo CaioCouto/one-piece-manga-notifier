@@ -28,14 +28,12 @@ function crawler(html) {
         const dateText = stringToDateTime(thumbDates[i].children[0].data);
         if (!titleText.includes('Mang')) continue;
         console.log(`>>>> Found: ${titleText}.`);
-        if (isNewChapter(dateText)) {
-            FileManager.write(JSON.stringify({
-                number: titleText,
-                date: dateText
-            }));
-            notify(titleText);
-        }
-        else console.log('>>>> Não é mais recente');
+        if (!isNewChapter(dateText)) { return console.log('>>>> Não é mais recente'); }
+        FileManager.write(JSON.stringify({
+            number: titleText,
+            date: dateText
+        }));
+        notify(titleText);
     }
 }
 
@@ -45,8 +43,10 @@ async function getHtmlData() {
     crawler(response.data);
 }
 
+const oneMinute_ms = 60000;
 const minutes = process.env.EXECUTION_PERIOD_MINUTES;
 console.log('>>>> Starting...');
 setInterval(() => {
-    getHtmlData();
-}, (60000*minutes));
+    const todayWeekday = new Date().getDay();
+    return todayWeekday < 4 ? console.log('Not yet...') : getHtmlData(); 
+}, (oneMinute_ms*minutes));
